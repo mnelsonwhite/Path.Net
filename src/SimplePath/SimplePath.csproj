@@ -8,8 +8,8 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <Description>Simple mediator to handle publishing and subscribing to messages</Description>
     <Copyright>Matthew Nelson-White</Copyright>
-    <PackageProjectUrl>https://github.com/mnelsonwhite/Path.Net</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/mnelsonwhite/Path.Net</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/mnelsonwhite/SimplePath</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/mnelsonwhite/SimplePath</RepositoryUrl>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <NeutralLanguage>en-AU</NeutralLanguage>

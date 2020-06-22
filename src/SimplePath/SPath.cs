@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Path.Net
+namespace SimplePath
 {
-    public struct Path
-        : IEquatable<Path>
-        , IComparable<Path>
+    public struct SPath
+        : IEquatable<SPath>
+        , IComparable<SPath>
         , IFormattable
         , IEnumerable<string>
     {
@@ -22,31 +22,31 @@ namespace Path.Net
 
         public int Length => _path.Length;
 
-        public static Path Parse(string path, string? delmiter = null)
+        public static SPath Parse(string path, string? delmiter = null)
         {
-            return new Path(Split(path, delmiter));
+            return new SPath(Split(path, delmiter));
         }
 
-        public Path(IEnumerable<string> path)
+        public SPath(IEnumerable<string> path)
         {
             _path = path.ToArray();
         }
 
-        public Path(Path path) : this(path._path) { }
+        public SPath(SPath path) : this(path._path) { }
 
-        public Path(params string[] path) : this((IEnumerable<string>)path) { }
+        public SPath(params string[] path) : this((IEnumerable<string>)path) { }
 
-        public Path Concat(params string[] segments)
+        public SPath Concat(params string[] segments)
         {
-            return new Path(_path.Concat(segments));
+            return new SPath(_path.Concat(segments));
         }
 
-        public Path Concat(Path path)
+        public SPath Concat(SPath path)
         {
-            return new Path(_path.Concat(path._path));
+            return new SPath(_path.Concat(path._path));
         }
 
-        public bool IsChildOf(Path path)
+        public bool IsChildOf(SPath path)
         {
             if (path._path.Length >= _path.Length)
             {
@@ -59,7 +59,7 @@ namespace Path.Net
                 .All(item => self._path[item.index] == item.segment);
         }
 
-        public Path ToRelative(Path path)
+        public SPath ToRelative(SPath path)
         {
             var self = this;
             var length = path._path
@@ -67,10 +67,10 @@ namespace Path.Net
                 .TakeWhile(item => self._path[item.index] == item.segment)
                 .Count();
 
-            return new Path(_path.Skip(length));
+            return new SPath(_path.Skip(length));
         }
 
-        public Path CommonParent(Path path)
+        public SPath CommonParent(SPath path)
         {
             var self = this;
             var segments = path._path
@@ -78,10 +78,10 @@ namespace Path.Net
                 .Where(item => self._path[item.index] == item.segment)
                 .Select(item => item.segment);
 
-            return new Path(segments);
+            return new SPath(segments);
         }
 
-        public int CompareTo(Path other)
+        public int CompareTo(SPath other)
         {
             if (IsChildOf(other)) return -1;
             if (Equals(other)) return 0;
@@ -98,41 +98,41 @@ namespace Path.Net
             return string.Join(delimiter, _path);
         }
 
-        public static Path operator +(Path lhs, string rhs)
+        public static SPath operator +(SPath lhs, string rhs)
         {
             return lhs.Concat(rhs);
         }
 
-        public static Path operator +(Path lhs, string[] rhs)
+        public static SPath operator +(SPath lhs, string[] rhs)
         {
             return lhs.Concat(rhs);
         }
 
-        public static Path operator +(Path lhs, Path rhs)
+        public static SPath operator +(SPath lhs, SPath rhs)
         {
             return lhs.Concat(rhs);
         }
 
-        public static bool operator ==(Path lhs, Path rhs)
+        public static bool operator ==(SPath lhs, SPath rhs)
         {
             return lhs.Equals(rhs);
         }
 
-        public static bool operator !=(Path lhs, Path rhs)
+        public static bool operator !=(SPath lhs, SPath rhs)
         {
             return !lhs.Equals(rhs);
         }
 
         public override bool Equals(object obj)
         {
-            if (obj is Path path)
+            if (obj is SPath path)
             {
                 return Equals(path);
             }
             return false;
         }
 
-        public bool Equals(Path other)
+        public bool Equals(SPath other)
         {
             return _path.SequenceEqual(other._path);
         }
