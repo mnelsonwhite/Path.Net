@@ -11,7 +11,8 @@ namespace SimplePath
         , IFormattable
         , IEnumerable<string>
     {
-        private static readonly string _defaultDelimiter = System.IO.Path.DirectorySeparatorChar.ToString();
+        private static readonly string _systemDelimiter = System.IO.Path.DirectorySeparatorChar.ToString();
+        private readonly string _defaultDelimiter;
         private readonly string[] _path;
 
         public string this[int key]
@@ -22,13 +23,14 @@ namespace SimplePath
 
         public int Length => _path.Length;
 
-        public static SPath Parse(string path, string? delmiter = null)
+        public static SPath Parse(string path, string? delimiter = null)
         {
-            return new SPath(Split(path, delmiter));
+            return new SPath(Split(path, delimiter), delimiter);
         }
 
-        public SPath(IEnumerable<string> path)
+        public SPath(IEnumerable<string> path, string? delimiter = null)
         {
+            _defaultDelimiter = delimiter ?? _systemDelimiter;
             _path = path.ToArray();
         }
 
@@ -38,12 +40,12 @@ namespace SimplePath
 
         public SPath Concat(params string[] segments)
         {
-            return new SPath(_path.Concat(segments));
+            return new SPath(_path.Concat(segments), _defaultDelimiter);
         }
 
         public SPath Concat(SPath path)
         {
-            return new SPath(_path.Concat(path._path));
+            return new SPath(_path.Concat(path._path), _defaultDelimiter);
         }
 
         public bool IsChildOf(SPath path)
@@ -67,7 +69,12 @@ namespace SimplePath
                 .TakeWhile(item => self._path[item.index] == item.segment)
                 .Count();
 
-            return new SPath(_path.Skip(length));
+            return new SPath(_path.Skip(length), _defaultDelimiter);
+        }
+
+        public SPath WithDefaultDelimiter(string delimiter)
+        {
+            return new SPath(_path, delimiter);
         }
 
         public SPath CommonParent(SPath path)
@@ -78,7 +85,7 @@ namespace SimplePath
                 .Where(item => self._path[item.index] == item.segment)
                 .Select(item => item.segment);
 
-            return new SPath(segments);
+            return new SPath(segments, _defaultDelimiter);
         }
 
         public int CompareTo(SPath other)
@@ -146,7 +153,7 @@ namespace SimplePath
         private static string[] Split(string target, string? delimiter)
         {
             return target.Split(
-                new[] { delimiter ?? _defaultDelimiter },
+                new[] { delimiter ?? _systemDelimiter },
                 StringSplitOptions.None);
         }
 
