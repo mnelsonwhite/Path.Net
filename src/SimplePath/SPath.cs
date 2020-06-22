@@ -95,6 +95,7 @@ namespace SimplePath
 
         public string ToString(string delimiter)
         {
+            if (_path == null || _path.Length == 0) return string.Empty;
             return string.Join(delimiter, _path);
         }
 

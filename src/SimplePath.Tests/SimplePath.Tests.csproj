@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Nullable>enable</Nullable>
     <Authors>Matthew Nelson-White</Authors>
     <Company />
@@ -10,16 +10,20 @@
     <Copyright>Matthew Nelson-White</Copyright>
     <PackageProjectUrl>https://github.com/mnelsonwhite/SimplePath</PackageProjectUrl>
     <RepositoryUrl>https://github.com/mnelsonwhite/SimplePath</RepositoryUrl>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <IsPackable>false</IsPackable>
     <NeutralLanguage>en-AU</NeutralLanguage>
     <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\LICENSE">
-      <Pack>True</Pack>
-      <PackagePath></PackagePath>
-    </None>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SimplePath\SimplePath.csproj" />
+  </ItemGroup>
+
 </Project>
