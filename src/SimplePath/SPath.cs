@@ -12,7 +12,6 @@ namespace SimplePath
         , IEnumerable<string>
     {
         private static readonly string _systemDelimiter = System.IO.Path.DirectorySeparatorChar.ToString();
-        private readonly string _defaultDelimiter;
         private readonly string[] _path;
 
         public string this[int key]
@@ -22,6 +21,7 @@ namespace SimplePath
         }
 
         public int Length => _path.Length;
+        public string DefaultDelimiter { get; }
 
         public static SPath Parse(string path, string? delimiter = null)
         {
@@ -30,7 +30,7 @@ namespace SimplePath
 
         public SPath(IEnumerable<string> path, string? delimiter = null)
         {
-            _defaultDelimiter = delimiter ?? _systemDelimiter;
+            DefaultDelimiter = delimiter ?? _systemDelimiter;
             _path = path.ToArray();
         }
 
@@ -40,12 +40,12 @@ namespace SimplePath
 
         public SPath Concat(params string[] segments)
         {
-            return new SPath(_path.Concat(segments), _defaultDelimiter);
+            return new SPath(_path.Concat(segments), DefaultDelimiter);
         }
 
         public SPath Concat(SPath path)
         {
-            return new SPath(_path.Concat(path._path), _defaultDelimiter);
+            return new SPath(_path.Concat(path._path), DefaultDelimiter);
         }
 
         public bool IsChildOf(SPath path)
@@ -69,7 +69,7 @@ namespace SimplePath
                 .TakeWhile(item => self._path[item.index] == item.segment)
                 .Count();
 
-            return new SPath(_path.Skip(length), _defaultDelimiter);
+            return new SPath(_path.Skip(length), DefaultDelimiter);
         }
 
         public SPath WithDefaultDelimiter(string delimiter)
@@ -85,7 +85,7 @@ namespace SimplePath
                 .Where(item => self._path[item.index] == item.segment)
                 .Select(item => item.segment);
 
-            return new SPath(segments, _defaultDelimiter);
+            return new SPath(segments, DefaultDelimiter);
         }
 
         public int CompareTo(SPath other)
@@ -97,7 +97,7 @@ namespace SimplePath
 
         public override string ToString()
         {
-            return ToString(_defaultDelimiter);
+            return ToString(DefaultDelimiter);
         }
 
         public string ToString(string delimiter)

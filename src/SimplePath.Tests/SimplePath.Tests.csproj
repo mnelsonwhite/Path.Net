@@ -12,7 +12,7 @@
     <RepositoryUrl>https://github.com/mnelsonwhite/SimplePath</RepositoryUrl>
     <IsPackable>false</IsPackable>
     <NeutralLanguage>en-AU</NeutralLanguage>
-    <Version>1.1.0</Version>
+    <Version>1.2.0</Version>
   </PropertyGroup>
 
   <ItemGroup>
