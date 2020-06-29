@@ -164,7 +164,7 @@ namespace SimplePath
 
         public IEnumerator<string> GetEnumerator()
         {
-            return (IEnumerator<string>) _path.GetEnumerator();
+            return _path.AsEnumerable().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
